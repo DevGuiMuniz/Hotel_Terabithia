@@ -1,0 +1,449 @@
+<html>
+
+<head>
+
+
+
+	<script>
+		// variaveis para o uso do decorrer do codigo
+
+		var li_hospedes = []
+
+		//começo do Hotel
+
+		var nome_hotel = prompt('Olá, qual é o nome do Hotel?');
+		alert(`Hotel-${nome_hotel}`)
+
+		while (true) {
+			var usuário = prompt("Informe por gentileza o nome do usuário:");
+			var senha = parseInt(prompt("Informe a senha:"));
+			if (senha == 2678) {
+				alert(`Olá seja bem vindo ao Hotel- ${nome_hotel}, ${usuário}. É um imenso prazer ter você por aqui!!!!`);
+				inicio();
+			} else {
+				alert('Não foi possível fazer o login. Tente novamente.');
+
+			}
+			break;
+		}
+
+		//função inicio do hotel
+		function inicio() {
+
+			var escolha = parseInt(prompt(
+				`Seja Bem-vindo ao ${nome_hotel} Hotel \n\nSelecione uma opção: \n1) Reserva de Quartos \n2) Sistema de Cadastro de Hóspedes \n3) Abastecimento de Carros\n4) Eventos \n5) Manutenção de Ar Condicionados \n6) Sair`
+				));
+
+			switch (escolha) {
+				case 1:
+					reserva_quartos();
+					break;
+				case 2:
+					sistema_cadastrar_hospedes();
+					break;
+				case 3:
+					abastecer_carros();
+					break;
+				case 4:
+					evento();
+					break;
+
+				case 5:
+					ar_condicionado();
+					break;
+				case 6:
+					sair();
+					break;
+
+				default:
+					erro();
+					break;
+			}
+
+			function reserva_quartos() {
+				alert(`HOTEL-${nome_hotel.toUpperCase()} - RESERVA DE QUARTOS`);
+				var valor_diaria = parseFloat(prompt('Qual o valor da diária?'));
+				if (valor_diaria <= 0 || isNaN(valor_diaria)) {
+					alert('Valor Inválido.');
+					reserva_quartos();
+				}
+				var dias_hosp = parseInt(prompt('Quantos dias pretende ficar conosco?'));
+				if (dias_hosp <= 0 || dias_hosp > 30) {
+					alert('Valor Inválido.');
+					reserva_quartos();
+				}
+				var nome_hospede = prompt('Informe por gentileza o nome do hóspede:');
+				if (isNaN(nome_hospede)) {
+					var confirma = prompt('Confirma a reserva? S/N');
+					if (confirma === 'S') {
+						alert(
+							`Reserva feita com sucesso!\nDados:\nHóspede: ${nome_hospede};\nValor: ${diaria};\nDias: ${diaria}.`);
+						inicio();
+					} else {
+						alert('Reserva não efetuada.')
+						inicio();
+					}
+				} else {
+					alert('Valor Inválido.');
+					inicio();
+				}
+
+				inicio();
+			}
+
+			function sistema_cadastrar_hospedes() {
+
+				alert(`HOTEL- ${nome_hotel.toUpperCase()} - CADASTRO DE HÓSPEDES`);
+				var escolha_hospedes = parseInt(prompt(
+					'Cadastro de Hóspedes\nSelecione uma opção: \n1) Cadastrar \n2) Pesquisar \n3) Listar \n4) Sair'));
+
+				switch (escolha_hospedes) {
+					case 1:
+						cadastro_hospedes();
+					case 2:
+						pesquisar_hospedes();
+					case 3:
+						listar_hospedes();
+					case 4:
+						inicio();
+					default:
+						erro_pesquisar_hospedes();
+				}
+			}
+
+			function cadastro_hospedes() {
+				alert(`HOTEL - ${nome_hotel.toUpperCase()} - CADASTRO DE HÓSPEDES`);
+
+				var diaria_padrao = parseFloat(prompt('Informe o valor padrão da diária:'))
+				if (diaria_padrao <= 0 || isNaN(diaria_padrao)) {
+					alert('Valor Inválido.');
+					cadastro_hospedes();
+				}
+
+				var gratuidades = 0;
+				var meia_entrada = 0;
+				var valor_normal = 0;
+				var valorTotal = 0;
+
+				while (true) {
+
+					if (li_hospedes.length >= 15) {
+						alert("Numero máximo de hóspedes cadastrados.");
+						sistema_cadastrar_hospedes();
+					} else {
+						var nome_hospede = prompt('Informe o nome do hospede para o cadastro, digite "PARE" para encerrar.')
+						li_hospedes.push(nome_hospede);
+						console.log(li_hospedes);
+
+						if (nome_hospede.toUpperCase() === 'PARE') {
+							alert(
+								`Gratuidades: ${gratuidades}\ meias entrada: ${meia_entrada}\de hospedagem de valor normal: ${valor_normal}\nValor total da hospedagem: R$ ${valorTotal}`);
+							sistema_cadastrar_hospedes();
+						}
+
+						var diarias = parseInt(prompt(`Informe o número de diárias do hóspede ${nome_hospede}`));
+						var valorHospedagem = diaria_padrao * diarias;
+
+						var idade_hospede = parseInt(prompt(`Informe a idade do hóspede ${nome_hospede}`));
+						if (idade_hospede < 6 && idade_hospede > 0) {
+							alert(`${nome_hospede} possui gratuidade.`);
+							alert("Sucesso! Hóspede " + nome_hospede + " foi cadastrada(o) com sucesso!\n");
+							gratuidades++;
+
+						} else if (idade_hospede >= 6 && idade_hospede < 60) {
+							alert(`${nome_hospede} paga o valor normal.`)
+							alert("Sucesso! Hóspede " + nome_hospede + " foi cadastrada(o) com sucesso!\n");
+							valor_normal++;
+							valorTotal += valorHospedagem;
+
+						} else {
+							valorTotal - diaria_padrao;
+							alert(`${nome_hospede} paga meia.`);
+							alert("Sucesso! Hóspede " + nome_hospede + " foi cadastrada(o) com sucesso!\n");
+							meia_entrada++;
+							valorTotal += valorHospedagem / 2;
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+
+		function pesquisar_hospedes() {
+			var nome_hospede = prompt('Por favor, informe o nome da(o) hóspede para pesquisa:');
+			if (li_hospedes.includes(nome_hospede)) {
+				alert(`${nome_hospede} encontrada(o).`);
+			} else {
+				alert(`${nome_hospede} não foi encontrada(o).`);
+			}
+			sistema_cadastrar_hospedes();
+		}
+
+		function listar_hospedes() {
+			var numero_hospede = 1;
+			var hospedes = "Hóspedes cadastrados:\n";
+			for (var i = 0; i < li_hospedes.length; i++) {
+				if (li_hospedes[i].toUpperCase() === "PARE") {
+					continue;
+				}
+				hospedes += numero_hospede + ". " + li_hospedes[i] + "\n";
+				numero_hospede++;
+			}
+			alert(hospedes);
+			sistema_cadastrar_hospedes();
+		}
+
+		function sistema_evento() {
+
+			var escolha_evento = parseInt(prompt(
+				'Serviço de Eventos\n\n Selecione uma opção: \n1) Serviço de garçons \n2) Serviço de Buffet \n3) Reserva de Espaços \n4) Reserva de restaurante\n5) Sair'
+				));
+
+			switch (escolha_evento) {
+				case 1:
+					garcon();
+				case 2:
+					buffet();
+				case 3:
+					espaco();
+				case 4:
+					restaurante();
+				case 5:
+					inicio();
+				default:
+					erro_evento();
+			}
+		}
+
+		function garcon() {
+
+			alert(`HOTEL- ${nome_hotel.toUpperCase()} - CONTRATO DE GARÇONS`);
+			alert(
+				'Bem-vindo(a) à área de eventos do hotel.\nVocê pode contratar nossos serviços de garçon com os preços abaixo:\nGarçon: R$ 10,50/hora.');
+
+			var valor_garcon = 10.50;
+			var quant_garcon = parseInt(prompt('Informe a quantidade de garçons necessários'));
+			var horas = prompt('Informe por gentileza o total de horas do evento:');
+
+			var custo_evento = (valor_garcon * quant_garcon) * horas;
+			var confirma = prompt(`O custo total do evento é de R$ ${custo_evento}. Deseja confirmar a reserva? S/N`);
+			if (confirma == 'S') {
+				alert('Reserva efetuada com sucesso.');
+			} else {
+				alert('Reserva não efetuada');
+			}
+
+			inicio();
+
+		}
+
+		function buffet_evento() {
+
+			alert(`HOTEL - ${nome_hotel.toUpperCase()} - BUFFET DE EVENTO`);
+			alert(
+				'Bem-vindo(a) à área do Buffet de eventos do hotel.\nVocê pode contratar nossos serviços com os preços abaixo:\nCafé: R$ 0,16 por convidado (0,2 litros por pessoa a R$ 0,80 o litro);\nÁgua: R$ 0,20 por convidado (0,5 litros por pessoa a R$ 0,40 o litro);\nSalgado: R$ 2,38 por convidado (7 salgados por pessoa a R$ 0,34 cada).');
+
+			var cafe_c = 0.2;
+			var cafe_p = 0.8 / 5;
+			var agua_c = 0.5;
+			var agua_p = 0.4 / 2;
+			var salgado_c = 7;
+			var salgado_p = (34 / 100) * 7;
+
+			var quant_conv = parseInt(prompt('Informe a quantidade de convidados:'));
+			if (quant_conv < 0) {
+				alert('Informe dados válidos.');
+			} else if (quant_conv > 350) {
+				alert('Quantidade de convidados superior à capacidade máxima');
+			} else {
+				var agua_Qtotal = agua_c * quant_conv;
+				var agua_Ptotal = agua_p * quant_conv;
+				var cafe_Qtotal = cafe_c * quant_conv;
+				var cafe_Ptotal = cafe_p * quant_conv;
+				var salgado_Qtotal = salgado_c * quant_conv;
+				var salgado_Ptotal = salgado_p * quant_conv;
+				var evento_total = agua_Ptotal + salgado_Ptotal + cafe_Ptotal;
+
+				alert(
+					`Quantidade e preços totais:\nCafé: ${cafe_Qtotal.toFixed(2)} litros por R$ ${cafe_Ptotal.toFixed(2)};\nÁgua: ${agua_Qtotal.toFixed(2)} litros por R$ ${agua_Ptotal.toFixed(2)};\nSalgados: ${salgado_Qtotal} unidades por R$ ${salgado_Ptotal.toFixed(2)};`)
+
+				var confirma = prompt(
+					`O custo total do evento é de R$ ${evento_total.toFixed(2)}. Deseja confirmar a reserva? S/N`);
+				if (confirma == 'S') {
+					alert('Reserva efetuada com sucesso.');
+				} else {
+					alert('Reserva não efetuada');
+				}
+
+				inicio();
+
+			}
+		}
+
+		function espaco() {
+			alert(`HOTEL-${nome_hotel.toUpperCase()} - ESPAÇO PARA EVENTOS`);
+			alert(
+				'Bem-vindo(a) à área de eventos do hotel.\nAqui você pode escolher qual auditório se adequa ao seu evento:\nAuditório Laranja conta com 150 lugares e espaço para até 70 cadeiras adicionais;\nAuditório Colorado conta com 350 lugares, sem espaço para mais cadeiras.');
+
+			var num_convidados = parseInt(prompt('Informe o número de convidados:'));
+			if (num_convidados <= 0 || num_convidados > 350) {
+				alert("Número de convidados inválido.");
+				sistema_evento();
+			} else if (num_convidados <= 220) {
+				if (num_convidados > 150) {
+					alert(
+						`Auditório Laranja é o mais adequado para o evento. Serão necessárias ${num_convidados - 150} cadeiras adicionais.`);
+					sistema_evento();
+				} else {
+					alert("Auditório Laranja é o mais adequado para o evento.");
+					sistema_evento();
+				}
+			} else {
+				alert("Auditório Colorado é o mais adequado para o evento.");
+				sistema_evento();
+			}
+		}
+
+
+		function restaurante() {
+			alert(`HOTEL - ${nome_hotel.toUpperCase()} - RESERVA DE RESTAURANTE`);
+			var diaSemana = prompt("Digite o dia da semana desejado:").toLowerCase();
+
+			var hora = Math.floor(parseFloat(prompt("Digite a hora desejada:")));
+
+			var disponivel = false;
+			if (diaSemana === "segunda" || diaSemana === "terca" || diaSemana === "quarta" || diaSemana === "quinta" ||
+				diaSemana === "sexta") {
+				if (hora >= 7 && hora <= 23) {
+					disponivel = true;
+				}
+			} else if (diaSemana === "sabado" || diaSemana === "domingo") {
+				if (hora >= 7 && hora <= 15) {
+					disponivel = true;
+				}
+			}
+
+			if (disponivel) {
+				var nomeEmpresa = prompt("Restaurante disponível! Informe o nome da empresa:");
+				alert(`Restaurante reservado para ${nomeEmpresa}: ${diaSemana} às ${hora}hs.`);
+			} else {
+				alert("Restaurante não disponível para o dia e hora informados.");
+			}
+
+			inicio();
+
+		}
+
+		function abastecer_carros() {
+			alert(`HOTEL- ${nome_hotel.toUpperCase()} - ABASTECER CARROS`);
+
+			var gasolina_Wayne = parseFloat(prompt('Informe o valor da gasolina no posto Wayne Oil:'));
+			var alcool_Wayne = parseFloat(prompt('Informe o valor do álcool no posto Wayne Oil:'));
+			var gasolina_Stark = parseFloat(prompt('Informe o valor da gasolina no posto Stark Petrol:'));
+			var alcool_Stark = parseFloat(prompt('Informe o valor do álcool no posto Stark Petrol:'));
+
+			var proAlcoolWayne = alcool_Wayne / gasolina_Wayne;
+			var proAlcoolStark = alcool_Stark / gasolina_Stark;
+
+			var combustivel;
+			var posto;
+			if (proAlcoolWayne <= 0.7 * proAlcoolStark) {
+				combustivel = "álcool";
+				if (precoAlcoolWayne <= precoAlcoolStark) {
+					posto = "Wayne Oil";
+				} else {
+					posto = "Stark Petrol";
+				}
+			} else {
+				combustivel = "gasolina";
+				if (gasolina_Wayne <= gasolina_Stark) {
+					posto = "Wayne Oil";
+				} else {
+					posto = "Stark Petrol";
+				}
+			}
+			alert(`O combustível mais vantajoso é o ${combustivel} e o posto mais barato é o ${posto}.`);
+
+			inicio();
+		}
+
+		function ar_condicionado() {
+			alert(`HOTEL - ${nome_hotel.toUpperCase()} - MANUTENÇÃO DE AR CONDICIONADOS`);
+
+			var empresas = [];
+			var validar = true;
+
+			while (validar) {
+				var nome_empresa = prompt("Digite por gentileza o nome da empresa:");
+				var valor_aparelho = parseInt(prompt("Digite o valor do serviço por aparelho:"));
+				var quant_aparelho = parseInt(prompt("Digite a quantidade de aparelhos em manutenção:"));
+				var desconto_aparelho = parseInt(prompt("Digite o percentual de desconto (em %):"));
+				var quant_Desconto = parseInt(prompt("Digite a quantidade mínima de aparelhos para ter desconto:"));
+
+				var valorTotal = valor_aparelho * quant_aparelho;
+				var valorDesconto = 0;
+
+				if (quant_aparelho >= quant_Desconto) {
+					valorDesconto = valorTotal * (desconto_aparelho / 100);
+				}
+
+				var valorFinal = valorTotal - valorDesconto;
+
+				empresas.push({
+					nome_empresa: nome_empresa,
+					valor_aparelho: valorFinal,
+				});
+
+				validar = prompt("Deseja informar novos dados? (S/N)").toLowerCase() === "s";
+			}
+
+			var MValor = empresas[0].valor_aparelho;
+			var NMValor = empresas[0].nome_empresa;
+
+			for (var i = 1; i < empresas.length; i++) {
+				if (empresas[i].valor_aparelho < MValor) {
+					MValor = empresas[i].valor_aparelho;
+					NMValor = empresas[i].nome_empresa;
+				}
+			}
+
+			alert("Orçamentos:");
+
+			for (var i = 0; i < empresas.length; i++) {
+				alert(`${empresas[i].nome_empresa}: R$ ${empresas[i].valor_aparelho.toFixed(2)}`);
+			}
+
+			alert(`O orçamento de menor valor é o de ${NMValor} por R$ ${MValor.toFixed(2)}`);
+
+			inicio();
+		}
+
+		function erro() {
+			alert('Por favor, informe um número entre 1 e 6');
+			inicio();
+		}
+
+		function erro_evento() {
+			alert('Por favor, informe um número entre 1 e 5');
+			sistema_evento();
+		}
+
+		function sair() {
+			var confirma = confirm('Você deseja sair?');
+			if (confirma) {
+				window.close();
+			} else {
+				inicio();
+			}
+		}
+	</script>
+</head>
+
+<body>
+
+</body>
+
+</html>
