@@ -3,3 +3,5 @@
 
 
 <img src = "https://github.com/DevGuiMuniz/Hotel_Terabithia/blob/main/hotel.jpg">
+
+Essa atividade foi proposta pelo o professor Gabriel. Linguaguem usadas: JavaScript e linguagem de marcação(HTML)
